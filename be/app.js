@@ -1,12 +1,12 @@
 const express = require('express');
-//const { connectDB } = require('./config/db.config');
+const { connectDB } = require('./config/db.config');
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
 
 // Kết nối đến cơ sở dữ liệu
-//connectDB()
+connectDB()
 // Route mặc định
 app.get('/', (req, res) => {
   res.send('Hello from Express!');
