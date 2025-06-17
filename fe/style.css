@@ -1019,3 +1019,36 @@ figure.instagram-item img.insta-image {
 .post-navigation:focus svg {
     fill: var(--primary-color);
 }
+.shop-name {
+  font-size: 32px;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+.image-holder {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* giữ ảnh vuông, bạn có thể đổi tỷ lệ khác như 4/3, 3/2,... */
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9; /* màu nền khi ảnh chưa load hoặc ảnh không chiếm hết */
+  border-radius: 8px;
+}
+
+.image-holder img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* hoặc cover tùy layout */
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover .image-holder img {
+  transform: scale(1.05);
+}
