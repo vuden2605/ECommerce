@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const { connectDB } = require('./config/db.config'); // ✅ Kết nối DB
 const router = require('./routes/index.routes'); 
 const app = express();
@@ -7,7 +8,7 @@ const PORT = process.env.PORT || 3000;
 (async () => {
   try {
     await connectDB(); 
-
+    app.use(express.static(path.join(__dirname, '../fe')));
     app.use(express.json());
 
     // ✅ Route chính
