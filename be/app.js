@@ -1,18 +1,36 @@
 const express = require('express');
-const { connectDB } = require('./config/db.config');
+const { connectDB } = require('./config/db.config'); // ✅ Kết nối DB
+const router = require('./routes/index.routes'); 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+(async () => {
+  try {
+    await connectDB(); 
 
-// Kết nối đến cơ sở dữ liệu
-connectDB()
-// Route mặc định
-app.get('/', (req, res) => {
-  res.send('Hello from Express!');
-});
+    app.use(express.json());
 
-// Khởi động server
-app.listen(PORT, () => {
-  console.log(`Server is running at http://localhost:${PORT}`);
-});
+    // ✅ Route chính
+    app.use('/', router);
+
+    // ❌ Route không tồn tại (404)
+    app.use((req, res, next) => {
+      console.error(`❌ Not found: ${req.method} ${req.originalUrl}`);
+      res.status(404).json({ error: 'Not found' });
+    });
+
+    // ❗ Middleware xử lý lỗi
+    app.use((err, req, res, next) => {
+      console.error('❗ Internal Error:', err);
+      res.status(500).json({ error: 'An internal server error occurred.' });
+    });
+
+    // ✅ Lắng nghe server
+    app.listen(PORT, () => {
+      console.log(`🚀 Server is running on http://localhost:${PORT}`);
+    });
+  } catch (err) {
+    console.error('❌ Failed to start server:', err);
+    process.exit(1); // Thoát nếu lỗi
+  }
+})();
