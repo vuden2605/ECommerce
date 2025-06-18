@@ -3,7 +3,8 @@ const productsService = require('../services/products.service');
 module.exports = {
     getAllProducts: async (req,res) => {
         try {
-            const products = await productsService.getAllProducts();
+            const category_id = req.query.category_id || null; 
+            const products = await productsService.getAllProducts(category_id);
             return res.status(200).json({
                 message: 'Products retrieved successfully',
                 products: products

@@ -146,8 +146,9 @@
               </a>
               <button type="button" class="btn-close btn-close-black" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-target="#bdNavbar"></button>
             </div>
-            <div class="offcanvas-body">
-              <ul id="navbar" class="navbar-nav text-uppercase justify-content-end align-items-center flex-grow-1 pe-3">
+            <div class="offcanvas-body d-flex justify-content-between align-items-center w-100">
+              <!-- Menu chính -->
+              <ul id="navbar" class="navbar-nav text-uppercase flex-grow-1">
                 <li class="nav-item">
                   <a class="nav-link me-4 active" href="#billboard">Home</a>
                 </li>
@@ -158,71 +159,22 @@
                   <a class="nav-link me-4" href="#mobile-products">Products</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link me-4" href="#smart-watches">Watches</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link me-4" href="#yearly-sale">Sale</a>
-                </li>
-                <li class="nav-item">
                   <a class="nav-link me-4" href="#latest-blog">Blog</a>
                 </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link me-4 dropdown-toggle link-dark" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Pages</a>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <a href="about.html" class="dropdown-item">About</a>
-                    </li>
-                    <li>
-                      <a href="blog.html" class="dropdown-item">Blog</a>
-                    </li>
-                    <li>
-                      <a href="shop.html" class="dropdown-item">Shop</a>
-                    </li>
-                    <li>
-                      <a href="cart.html" class="dropdown-item">Cart</a>
-                    </li>
-                    <li>
-                      <a href="checkout.html" class="dropdown-item">Checkout</a>
-                    </li>
-                    <li>
-                      <a href="single-post.html" class="dropdown-item">Single Post</a>
-                    </li>
-                    <li>
-                      <a href="single-product.html" class="dropdown-item">Single Product</a>
-                    </li>
-                    <li>
-                      <a href="contact.html" class="dropdown-item">Contact</a>
-                    </li>
-                  </ul>
-                </li>
-                <li class="nav-item">
-                  <div class="user-items ps-5">
-                    <ul class="d-flex justify-content-end list-unstyled">
-                      <li class="search-item pe-3">
-                        <a href="#" class="search-button">
-                          <svg class="search">
-                            <use xlink:href="#search"></use>
-                          </svg>
-                        </a>
-                      </li>
-                      <li class="pe-3">
-                        <a href="#">
-                          <svg class="user">
-                            <use xlink:href="#user"></use>
-                          </svg>
-                        </a>
-                      </li>
-                      <li>
-                        <a href="cart.html">
-                          <svg class="cart">
-                            <use xlink:href="#cart"></use>
-                          </svg>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </li>
               </ul>
+
+              <!-- Khu vực người dùng -->
+              <div class="d-flex align-items-center gap-3">
+                <a href="/login.html" class="btn btn-login me-2">Login</a>
+                <a href="/register.html" class="btn btn-register">Register</a>
+
+                <!-- Giỏ hàng -->
+                <a href="/cart.html" class="position-relative">
+                  <svg class="cart" style="width: 20px; height: 20px;">
+                    <use xlink:href="#cart"></use>
+                  </svg>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -342,14 +294,28 @@
           <div class="display-header d-flex justify-content-between pb-3">
             <h2 class="display-7 text-dark text-uppercase">Products</h2>
           </div>
-          <div class="swiper product-swiper">
-            <div class="swiper-wrapper" id="product-list">
-            </div>
+          <div class="category-filter d-flex flex-wrap justify-content-center mb-4" id="category-list">
+            <!-- JS sẽ render category ở đây -->
           </div>
         </div>
+        <!-- Danh sách sản phẩm -->
+        <div class="row" id="product-list">
+          <!-- JS sẽ render các sản phẩm ở đây -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="row">
+          <div class="col text-center mt-4">
+            <nav>
+              <ul class="pagination justify-content-center" id="pagination">
+                <!-- JS có thể render các nút page ở đây -->
+              </ul>
+            </nav>
+          </div>
+         </div>
       </div>
-      <div class="swiper-pagination position-absolute text-center"></div>
     </section>
+    
     <footer id="footer" class="overflow-hidden">
       <div class="container">
         <div class="row">

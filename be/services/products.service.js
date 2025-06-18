@@ -1,9 +1,10 @@
 const { sql } = require('../config/db.config');
 module.exports = {
-    getAllProducts: async() => {
+    getAllProducts: async(category_id) => {
         try {
-            const query = 'SELECT * FROM products';
+            const query = 'SELECT id,image, name, price, description  FROM products WHERE @category_id IS NULL OR category_id = @category_id';
             const request = new sql.Request();
+            request.input('category_id', sql.Int, category_id);
             const result = await request.query(query);
             return result.recordset || []; 
         }
