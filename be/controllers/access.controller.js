@@ -49,7 +49,7 @@ module.exports = {
                 return res.status(401).json({ message: 'Invalid password' });
             }
             const accessToken = jwt.sign(
-                { id: user.id, email: user.email }, 
+                { id: user.id, email: user.email, role: user.role }, 
                 process.env.JWT_SECRET,             
                 { expiresIn: '7d' }                 
             );

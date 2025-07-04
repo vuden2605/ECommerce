@@ -1,19 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
     fetchProducts();
     fetchCategories();
-    const accessToken = localStorage.getItem("token"); // hoặc "token" tuỳ bạn lưu
+    const accessToken = localStorage.getItem("token"); 
 
     if (accessToken) {
       document.getElementById("loginBtn").style.display = "none";
       document.getElementById("registerBtn").style.display = "none";
     }
 });
-document.querySelectorAll('.add-to-cart').forEach(btn => {
-  btn.addEventListener('click', async function () {
-    const productId = this.dataset.id;
+document.getElementById('product-list').addEventListener('click', async function (e) {
+  if (e.target.classList.contains('add-to-cart')) {
+    const productId = e.target.dataset.id;
     await addToCart(productId);
-  });
-}); 
+  }
+});
+
 async function fetchCategories() {
   const categoryList = document.getElementById('category-list');
   try {
@@ -55,7 +56,7 @@ async function fetchProducts(categoryId) {
               <p class="card-text">${product.description}</p>
               <p class="card-text text-primary mt-auto fw-bold">${product.price} VNĐ</p>
               <button class="btn btn-sm btn-success mt-2 add-to-cart" 
-                data-id="$product.id">
+                data-id=${product.id}>
                 🛒 Thêm vào giỏ
               </button>
             </div>
@@ -74,22 +75,24 @@ async function addToCart(productId) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        // Nếu cần token:
-        // 'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
       },
       body: JSON.stringify({
-        product_id: productId,
+        productId: productId,
         quantity: 1
       })
     });
 
-    if (!res.ok) throw new Error('Lỗi khi thêm vào giỏ');
+    const data = await res.json();
+    console.log("Phản hồi server:", res.status, data);
 
-    const result = await res.json();
+    if (!res.ok) {
+      throw new Error(data.message || 'Lỗi khi thêm vào giỏ');
+    }
+
     alert('✅ Thêm vào giỏ hàng thành công!');
   } catch (error) {
     console.error('❌ Lỗi khi gọi API thêm giỏ hàng:', error);
     alert('⚠️ Thêm vào giỏ thất bại!');
   }
 }
-
