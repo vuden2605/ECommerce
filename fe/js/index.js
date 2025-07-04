@@ -1,7 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
     fetchProducts();
     fetchCategories();
+    const accessToken = localStorage.getItem("token"); // hoặc "token" tuỳ bạn lưu
+
+    if (accessToken) {
+      document.getElementById("loginBtn").style.display = "none";
+      document.getElementById("registerBtn").style.display = "none";
+    }
+});
+document.querySelectorAll('.add-to-cart').forEach(btn => {
+  btn.addEventListener('click', async function () {
+    const productId = this.dataset.id;
+    await addToCart(productId);
   });
+}); 
 async function fetchCategories() {
   const categoryList = document.getElementById('category-list');
   try {
@@ -42,6 +54,10 @@ async function fetchProducts(categoryId) {
               <h5 class="card-title">${product.name}</h5>
               <p class="card-text">${product.description}</p>
               <p class="card-text text-primary mt-auto fw-bold">${product.price} VNĐ</p>
+              <button class="btn btn-sm btn-success mt-2 add-to-cart" 
+                data-id="$product.id">
+                🛒 Thêm vào giỏ
+              </button>
             </div>
           </div>
         </div>
@@ -52,3 +68,28 @@ async function fetchProducts(categoryId) {
     console.error('Lỗi khi fetch sản phẩm:', err);
   }
 }
+async function addToCart(productId) {
+  try {
+    const res = await fetch('http://localhost:3000/cart/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        // Nếu cần token:
+        // 'Authorization': 'Bearer ' + localStorage.getItem('accessToken')
+      },
+      body: JSON.stringify({
+        product_id: productId,
+        quantity: 1
+      })
+    });
+
+    if (!res.ok) throw new Error('Lỗi khi thêm vào giỏ');
+
+    const result = await res.json();
+    alert('✅ Thêm vào giỏ hàng thành công!');
+  } catch (error) {
+    console.error('❌ Lỗi khi gọi API thêm giỏ hàng:', error);
+    alert('⚠️ Thêm vào giỏ thất bại!');
+  }
+}
+
