@@ -1,7 +1,22 @@
 const { sql } = require('../config/db.config');
 module.exports = {
-    addToCart: async (productId, userId,quantity) => {
+    addToCart: async (userId,productId,quantity) => {
         try {
+            const query_check = 'SELECT * FROM CartItems WHERE user_id = @userId AND product_id = @productId';
+            const request_check = new sql.Request();
+            request_check.input('userId', sql.Int, userId);
+            request_check.input('productId', sql.Int, productId);
+            const result_check = await request_check.query(query_check);
+            if (result_check.recordset.length > 0) {
+                // If the product is already in the cart, update the quantity
+                const updateQuery = 'UPDATE CartItems SET quantity = quantity + @quantity WHERE user_id = @userId AND product_id = @productId';
+                const updateRequest = new sql.Request();
+                updateRequest.input('userId', sql.Int, userId);
+                updateRequest.input('productId', sql.Int, productId);
+                updateRequest.input('quantity', sql.Int, quantity);
+                await updateRequest.query(updateQuery);
+                return { message: 'Product quantity updated in cart' };
+            }
             const query = 'INSERT INTO CartItems (user_id, product_id, quantity) VALUES (@userId, @productId, @quantity)';
             const request = new sql.Request();
             request.input('userId', sql.Int, userId);
