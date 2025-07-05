@@ -20,7 +20,7 @@ document.getElementById("cartBtn").addEventListener("click", async (e) => {
   e.preventDefault();
   window.location.href = "/cart.html";
 });
-
+document.getElementById("accountDropdown").addEventListener("click", fetchProfile);
 async function fetchCategories() {
   const categoryList = document.getElementById('category-list');
   try {
@@ -41,7 +41,6 @@ async function fetchCategories() {
     console.error('Lỗi khi fetch categories:', err);
   }
 }
-
 async function fetchProducts(categoryId) {
   const productList = document.getElementById('product-list');
   console.log('Fetching products with categoryId:', categoryId);
@@ -110,13 +109,6 @@ function logout()  {
     window.location.href = "/login.html";
   }
 }
-document.getElementById("accountDropdown").addEventListener("click", function(e) {
-  e.preventDefault();
-  fetchProfile();
-  // Sau đó mới toggle dropdown
-  const dropdown = new bootstrap.Dropdown(this);
-  dropdown.toggle();
-});
 async function fetchProfile() {
   const accessToken = localStorage.getItem("token");
   if (!accessToken) {
