@@ -1,14 +1,11 @@
-document.addEventListener('DOMContentLoaded', () => {
-    fetchProducts();
-    fetchCategories();
-    const accessToken = localStorage.getItem("token"); 
-
-    if (accessToken) {
-      document.getElementById("loginBtn").style.display = "none";
-      document.getElementById("registerBtn").style.display = "none";
-      document.getElementById("logoutBtn").classList.remove("d-none")
-    }
-});
+fetchProducts();
+fetchCategories();
+const accessToken = localStorage.getItem("token"); 
+if (accessToken) {
+  document.getElementById("loginBtn").style.display = "none";
+  document.getElementById("registerBtn").style.display = "none";
+  document.getElementById("logoutBtn").classList.remove("d-none")
+}
 document.getElementById('product-list').addEventListener('click', async function (e) {
   if (e.target.classList.contains('add-to-cart')) {
     const productId = e.target.dataset.id;
