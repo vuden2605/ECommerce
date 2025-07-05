@@ -1,5 +1,15 @@
 const cartService = require('../services/cart.service');
 module.exports = {
+    getCartItems: async (req, res) => {
+        try {
+            const userId = req.user.id; 
+            const cartItems = await cartService.getCartItems(userId);
+            return res.status(200).json(cartItems);
+        } catch (error) {
+            console.error('Error fetching cart items:', error);
+            return res.status(500).json({ message: 'Internal server error' });
+        }
+    },
     addToCart: async (req, res) => {
         try{
             const { productId, quantity } = req.body;

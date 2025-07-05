@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (accessToken) {
       document.getElementById("loginBtn").style.display = "none";
       document.getElementById("registerBtn").style.display = "none";
+      document.getElementById("logoutBtn").classList.remove("d-none")
     }
 });
 document.getElementById('product-list').addEventListener('click', async function (e) {
@@ -14,7 +15,11 @@ document.getElementById('product-list').addEventListener('click', async function
     await addToCart(productId);
   }
 });
-
+document.getElementById("logoutBtn").addEventListener("click", logout);
+document.getElementById("cartBtn").addEventListener("click", async (e) => {
+  e.preventDefault();
+  window.location.href = "/cart.html";
+});
 async function fetchCategories() {
   const categoryList = document.getElementById('category-list');
   try {
@@ -94,5 +99,12 @@ async function addToCart(productId) {
   } catch (error) {
     console.error('❌ Lỗi khi gọi API thêm giỏ hàng:', error);
     alert('⚠️ Thêm vào giỏ thất bại!');
+  }
+}
+function logout()  {
+  const confirmLogout = confirm("Bạn có chắc chắn muốn đăng xuất không?");
+  if (confirmLogout) {
+    localStorage.removeItem("token");
+    window.location.href = "/login.html";
   }
 }

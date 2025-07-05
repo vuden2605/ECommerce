@@ -1,5 +1,19 @@
 const { sql } = require('../config/db.config');
 module.exports = {
+    getCartItems: async (userId) => {
+        try {
+            const query = `SELECT * FROM CartItems c
+                           JOIN Products p on c.product_id=p.id
+                           WHERE user_id = @userId`;
+            const request = new sql.Request();
+            request.input('userId', sql.Int, userId);
+            const result = await request.query(query);
+            return result.recordset;
+        } catch (error) {
+            console.error('Error fetching cart items:', error);
+            throw error;
+        }
+    },
     addToCart: async (userId,productId,quantity) => {
         try {
             const query_check = 'SELECT * FROM CartItems WHERE user_id = @userId AND product_id = @productId';
