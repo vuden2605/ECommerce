@@ -20,6 +20,7 @@ document.getElementById("cartBtn").addEventListener("click", async (e) => {
   e.preventDefault();
   window.location.href = "/cart.html";
 });
+
 async function fetchCategories() {
   const categoryList = document.getElementById('category-list');
   try {
@@ -40,6 +41,7 @@ async function fetchCategories() {
     console.error('Lỗi khi fetch categories:', err);
   }
 }
+
 async function fetchProducts(categoryId) {
   const productList = document.getElementById('product-list');
   console.log('Fetching products with categoryId:', categoryId);
@@ -106,5 +108,37 @@ function logout()  {
   if (confirmLogout) {
     localStorage.removeItem("token");
     window.location.href = "/login.html";
+  }
+}
+document.getElementById("accountDropdown").addEventListener("click", function(e) {
+  e.preventDefault();
+  fetchProfile();
+  // Sau đó mới toggle dropdown
+  const dropdown = new bootstrap.Dropdown(this);
+  dropdown.toggle();
+});
+async function fetchProfile() {
+  const accessToken = localStorage.getItem("token");
+  if (!accessToken) {
+    alert("Bạn cần đăng nhập để xem thông tin cá nhân.");
+    return;
+  }
+  try {
+    const response = await fetch('http://localhost:3000/access/profile', {
+      headers: {
+        'Authorization': 'Bearer ' + accessToken
+      }
+    });
+    if (!response.ok) {
+      throw new Error('Lỗi khi lấy thông tin người dùng');
+    } 
+    const {user} = await response.json();
+    console.log('Thông tin người dùng:', user);
+    document.getElementById("userName").textContent = `👤 Tên: ${user.name}`;
+    document.getElementById("userEmail").textContent = `📧 Email: ${user.email}`;
+    document.getElementById("userPhone").textContent = `🧾 SĐT: ${user.phone}`;
+    
+  } catch (error) {
+    console.error('Lỗi khi gọi API lấy thông tin người dùng:', error);
   }
 }

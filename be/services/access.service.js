@@ -34,5 +34,18 @@ module.exports = {
             console.error('Error creating user:', error);
             throw error; 
         }
-    }
+    },
+    getUserById: async (id) => {
+        try{
+            const query = 'SELECT name, email, phone FROM users WHERE id = @id';
+            const request = new sql.Request();
+            request.input ('id', sql.Int, id); 
+            const result = await request.query(query);
+            return result.recordset[0] || null; 
+        }
+        catch (error) {
+            console.error('Error fetching user by id:', error);
+            throw error; 
+        }
+    },
 }

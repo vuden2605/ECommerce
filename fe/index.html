@@ -167,7 +167,18 @@
               <div class="d-flex align-items-center gap-3">
                 <a href="/login.html" class="btn btn-login me-2" id="loginBtn">Login</a>
                 <a href="/register.html" class="btn btn-register" id="registerBtn">Register</a>
-                <button class="btn btn-danger me-2 d-none" id="logoutBtn">Đăng xuất</button>
+                <div class="dropdown">
+                  <button class="btn btn-link dropdown-toggle text-dark text-decoration-none" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    👤 Account
+                  </button>
+                
+                  <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                    <li><span id="userName" class="dropdown-item-text">👤 Tên: ...</span></li>
+                    <li><span id="userEmail" class="dropdown-item-text">📧 Email: ...</span></li>
+                    <li><span id="userPhone" class="dropdown-item-text">🧾 Số điện thoại: ...</span></li>
+                    <li><button class="dropdown-item text-danger" onclick="logout()">Đăng xuất</button></li>
+                  </ul>
+                </div>
 
                 <!-- Giỏ hàng -->
                 <a href="#" class="position-relative" id="cartBtn">
