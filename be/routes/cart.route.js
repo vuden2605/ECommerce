@@ -4,4 +4,7 @@ const express = require('express');
 const router = express.Router();
 router.get('/', authService.authentication, authService.authorization("user"), cartController.getCartItems);
 router.post('/add', authService.authentication, authService.authorization("user"),cartController.addToCart);
+router.patch('/:productId/increase', authService.authentication, authService.authorization("user"), cartController.increaseQuantity);
+router.patch('/:productId/decrease', authService.authentication, authService.authorization("user"), cartController.decreaseQuantity);
+router.delete('/:productId',authService.authentication, authService.authorization("user"), cartController.deleteCart);
 module.exports = router;

@@ -42,5 +42,44 @@ module.exports = {
             console.error('Error adding product to cart:', error);
             throw error;
         }
+    },
+    deleteCart: async (userId, productId) => {
+        try {
+            const query = 'DELETE FROM CartItems WHERE user_id = @userId AND product_id = @productId';
+            const request = new sql.Request();
+            request.input('userId', sql.Int, userId);
+            request.input('productId', sql.Int, productId);
+            await request.query(query);
+            return { message: 'Product removed from cart successfully' };
+        } catch (error) {
+            console.error('Error removing product from cart:', error);
+            throw error;
+        }
+    },
+    increaseQuantity: async (userId, productId) => {
+        try {
+            const query = 'UPDATE CartItems SET quantity = quantity + 1 WHERE user_id = @userId AND product_id = @productId';
+            const request = new sql.Request();
+            request.input('userId', sql.Int, userId);
+            request.input('productId', sql.Int, productId);
+            await request.query(query);
+            return { message: 'Product quantity increased successfully' };
+        } catch (error) {
+            console.error('Error increasing product quantity:', error);
+            throw error;
+        }
+    },
+    decreaseQuantity: async (userId, productId) => {
+        try {
+            const query = 'UPDATE CartItems SET quantity = quantity - 1 WHERE user_id = @userId AND product_id = @productId AND quantity > 1';
+            const request = new sql.Request();
+            request.input('userId', sql.Int, userId);
+            request.input('productId', sql.Int, productId);
+            await request.query(query);
+            return { message: 'Product quantity decreased successfully' };
+        } catch (error) {
+            console.error('Error decreasing product quantity:', error);
+            throw error;
+        }
     }
 }
