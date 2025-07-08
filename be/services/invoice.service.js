@@ -38,5 +38,9 @@ module.exports = {
             console.error('Error creating invoice:', error);
             throw error; 
         }
+    },
+    payBills: async (user_id) => {
+
+
     }
 }

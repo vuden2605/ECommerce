@@ -2,7 +2,7 @@ const orderService = require('../services/order.service');
 module.exports = {
     getAllOrders: async (req, res) => {
         try {
-            const orders = await orderService.getAllOrders();
+            const orders = await orderService.getAllOrders;
             res.status(200).json(orders);
         } catch (error) {
             console.error('Error fetching all orders:', error);
@@ -12,7 +12,7 @@ module.exports = {
     getOrdersByUser: async (req, res) => {
         try {
             const userId = req.user.id;
-            const orders = await orderService.getAllOrders(userId);
+            const orders = await orderService.getOrdersByUser(userId);
             res.status(200).json(orders);
         } catch (error) {
             console.error('Error fetching orders:', error);
