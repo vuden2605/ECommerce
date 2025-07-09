@@ -43,7 +43,7 @@ module.exports = {
             throw error;
         }
     },
-    deleteCart: async (userId, productId) => {
+    deleteCartDetail: async (userId, productId) => {
         try {
             const query = 'DELETE FROM CartItems WHERE user_id = @userId AND product_id = @productId';
             const request = new sql.Request();
@@ -79,6 +79,18 @@ module.exports = {
             return { message: 'Product quantity decreased successfully' };
         } catch (error) {
             console.error('Error decreasing product quantity:', error);
+            throw error;
+        }
+    },
+    deleteCartByUser: async (userId) => {
+        try {
+            const query = 'DELETE FROM CartItems WHERE user_id = @userId';
+            const request = new sql.Request();
+            request.input('userId', sql.Int, userId);
+            await request.query(query);
+            return { message: 'Cart cleared successfully' };
+        } catch (error) {
+            console.error('Error clearing cart:', error);
             throw error;
         }
     }

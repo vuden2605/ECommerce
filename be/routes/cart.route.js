@@ -6,5 +6,5 @@ router.get('/', authService.authentication, authService.authorization("user"), c
 router.post('/add', authService.authentication, authService.authorization("user"),cartController.addToCart);
 router.patch('/:productId/increase', authService.authentication, authService.authorization("user"), cartController.increaseQuantity);
 router.patch('/:productId/decrease', authService.authentication, authService.authorization("user"), cartController.decreaseQuantity);
-router.delete('/:productId',authService.authentication, authService.authorization("user"), cartController.deleteCart);
+router.delete('/:productId',authService.authentication, authService.authorization("user"), cartController.deleteCartDetail);
 module.exports = router;

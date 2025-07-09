@@ -1,5 +1,6 @@
 const { sql } = require('../config/db.config');
 const orderService = require('./order.service');
+const cartService = require('./cart.service');
 module.exports = {
     getInvoicesByUser: async (userid) => {
         try {
@@ -56,6 +57,8 @@ module.exports = {
             if (!result) {
                 throw new Error('Failed to create invoice');
             }
+            //delete cart
+            const deleteCartResult = await cartService.deleteCartByUser(user_id);
             return result;
         } catch (error) {
             console.error('Error paying bills:', error);

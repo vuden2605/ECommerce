@@ -53,14 +53,14 @@ module.exports = {
             return res.status(500).json({ message: 'Internal server error' });
         }
     },
-    deleteCart: async (req, res) => {
+    deleteCartDetail: async (req, res) => {
         try {
             const { productId } = req.params;
             const userId = req.user.id; 
             if (!productId) {
                 return res.status(400).json({ message: 'Product ID is required' });
             }
-            const result = await cartService.deleteCart(userId, productId);
+            const result = await cartService.deleteCartDetail(userId, productId);
             return res.status(200).json(result);
         } catch (error) {
             console.error('Error deleting cart item:', error);

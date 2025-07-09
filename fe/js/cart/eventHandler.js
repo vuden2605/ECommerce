@@ -56,8 +56,8 @@ export const setupCheckoutListener = (cart) => {
 
       if (!res.ok) throw new Error();
 
-      alert("Thanh toán thành công!");
-      renderCart(); // clear cart UI sau thanh toán
+      alert("Thanh toán thành công!"); 
+      window.location.href = 'index.html';
     } catch (err) {
       console.error("Checkout error:", err);
       alert("Không thể thanh toán. Vui lòng thử lại.");
