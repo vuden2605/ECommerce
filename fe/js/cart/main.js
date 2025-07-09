@@ -6,5 +6,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   const cart = await fetchCart();
   renderCart(cart);
   setupCartEventListeners();
-  setupCheckoutListener();
+  setupCheckoutListener(cart);
 });

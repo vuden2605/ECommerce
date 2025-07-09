@@ -28,9 +28,18 @@ export const decreaseItem = async (id) => {
   });
 };
 
-export const checkout = async () => {
-  return fetch(`${API_URL}/cart/checkout`, {
+export const payCod = async ({ products, shipping_info, total_price }) => {
+  return fetch(`${API_URL}/invoice/payCod`, {
     method: 'POST',
-    headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    },
+    body: JSON.stringify({
+      products,
+      shipping_info,
+      total_price
+    })
   });
 };
+

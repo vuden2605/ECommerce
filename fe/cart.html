@@ -16,16 +16,18 @@
       <label for="shipping-address" class="form-label">Địa chỉ giao hàng:</label>
       <input type="text" class="form-control" id="shipping-address" placeholder="Nhập địa chỉ của bạn">
     </div>
+    
     <div class="mt-3">
-      <label class="form-label">Phương thức thanh toán:</label>
+      <label for="payment-method" class="form-label">Phương thức thanh toán:</label>
       <select class="form-select" id="payment-method">
-        <option value="cod">Thanh toán khi nhận hàng (COD)</option>
-        <option value="momo">Thanh toán bằng MoMo</option>
+        <option value="COD">Thanh toán khi nhận hàng (COD)</option>
+        <option value="MOMO">Thanh toán bằng MoMo</option>
       </select>
     </div>
+    
     <div class="mt-4">
       <h4>Tổng tiền: <span id="total-price" class="text-danger fw-bold">0 VNĐ</span></h4>
-      <button class="btn btn-success mt-2">Thanh toán</button>  
+      <button id="checkout-btn" class="btn btn-success mt-2">Thanh toán</button>  
     </div>
   </div>
 
