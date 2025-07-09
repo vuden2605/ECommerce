@@ -48,5 +48,37 @@ module.exports = {
             console.error('Error paying bill:', error);
             res.status(500).json({ message: 'Internal server error' });
         }
+    },
+    payMoMo: async (req, res) => {
+        try {
+            const user_id = req.user.id;
+            const { products, total_price, shipping_info } = req.body;
+            const momoResponse = await invoiceService.payMoMo(user_id, products, total_price, shipping_info);
+            
+            // Check if payment URL is available
+            if (momoResponse?.payUrl) {
+                return res.status(200).json({
+                    success: true,
+                    message: 'Tạo thanh toán thành công',
+                    payUrl: momoResponse.payUrl,
+                    order_id: momoResponse.order_id,
+                    invoice_id: momoResponse.invoice_id,
+                });
+            } else {
+                return res.status(500).json({
+                    success: false,
+                    message: 'Không thể tạo yêu cầu thanh toán MoMo',
+                    error: momoResponse?.message || 'Unknown error',
+                });
+            }
+            
+        } catch (error) {
+            console.error('Lỗi tạo thanh toán MoMo:', error);
+            return res.status(500).json({
+                success: false,
+                message: 'Đã xảy ra lỗi trong quá trình tạo thanh toán MoMo',
+            });
+        }
     }
+    
 }

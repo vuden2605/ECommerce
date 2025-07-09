@@ -42,4 +42,22 @@ export const payCod = async ({ products, shipping_info, total_price }) => {
     })
   });
 };
+export const payMomo = async ({ products, shipping_info, total_price }) => {
+  const res = await fetch(`${API_URL}/invoice/payMoMo`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    },
+    body: JSON.stringify({
+      products,
+      shipping_info,
+      total_price
+    })
+  });
+
+  const result = await res.json(); 
+
+  return result;
+}
 

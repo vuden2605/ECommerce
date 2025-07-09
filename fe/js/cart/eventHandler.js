@@ -1,4 +1,4 @@
-import { fetchCart, deleteItem, increaseItem, decreaseItem, payCod } from './cartService.js';
+import { fetchCart, deleteItem, increaseItem, decreaseItem, payCod, payMomo } from './cartService.js';
 import { renderCart } from './cartRender.js';
 
 export const setupCartEventListeners = () => {
@@ -49,15 +49,22 @@ export const setupCheckoutListener = (cart) => {
 
       if (paymentMethod === "COD") {
         res = await payCod({ products, shipping_info, total_price });
-      } else {
-        alert("Phương thức thanh toán chưa được hỗ trợ.");
-        return;
+        alert("Thanh toán thành công!"); 
+        window.location.href = 'index.html';
+      }
+      if (paymentMethod === "MOMO") {
+        res = await payMomo({ products, shipping_info, total_price });
+        console.log("MoMo response:", res); // 👈 thêm dòng này
+        window.location.href = res.payUrl;
       }
 
-      if (!res.ok) throw new Error();
+      if (!res || !res.ok) {
+        console.error("Phản hồi từ API:", res); // 👈 thêm dòng này
+        throw new Error("Lỗi khi thanh toán");
+      }
 
-      alert("Thanh toán thành công!"); 
-      window.location.href = 'index.html';
+
+      
     } catch (err) {
       console.error("Checkout error:", err);
       alert("Không thể thanh toán. Vui lòng thử lại.");

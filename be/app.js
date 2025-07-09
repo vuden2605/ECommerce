@@ -25,7 +25,7 @@ const PORT = process.env.PORT || 3000;
       console.error('❗ Internal Error:', err);
       res.status(500).json({ error: 'An internal server error occurred.' });
     });
-
+    
     // ✅ Lắng nghe server
     app.listen(PORT, () => {
       console.log(`🚀 Server is running on http://localhost:${PORT}`);
