@@ -57,5 +57,30 @@ module.exports = {
             console.error('Error creating order detail:', error);
             throw error; 
         }
+    },
+    deleteOrder: async (orderId) => {
+        try {
+            const query = 'DELETE FROM orders WHERE id = @orderId';
+            const request = new sql.Request();
+            request.input('orderId', sql.Int, orderId);
+            const result = await request.query(query);
+            return result.rowsAffected > 0; 
+        } catch (error) {
+            console.error('Error deleting order:', error);
+            throw error; 
+        }
+    },
+    deleteOrderDetail: async (orderId) => {
+        try {
+            const query = 'DELETE FROM orderitems WHERE order_id = @orderId';
+            const request = new sql.Request();
+            request.input('orderId', sql.Int, orderId);
+            const result = await request.query(query);
+            return result.rowsAffected > 0; 
+        } catch (error) {
+            console.error('Error deleting order detail:', error);
+            throw error; 
+        }
     }
+
 }

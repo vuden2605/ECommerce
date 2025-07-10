@@ -31,13 +31,15 @@ module.exports = {
 
     createInvoice: async (order_id, payment_method, payment_status, total_amount) => {
         try {
-            const query = 'INSERT INTO invoices (order_id, payment_method, total_amount) VALUES (@order_id, @payment_method, @total_amount)';
+            const query = `INSERT INTO invoices (order_id, payment_method, total_amount)
+                            OUTPUT INSERTED.id 
+                           VALUES (@order_id, @payment_method, @total_amount)`;
             const request = new sql.Request();
             request.input('order_id', sql.Int, order_id);
             request.input('payment_method', sql.NVarChar, payment_method);
             request.input('total_amount', sql.Float, total_amount);
             const result = await request.query(query);
-            return result.rowsAffected > 0; 
+            return  result.recordset[0].id; 
         } catch (error) {
             console.error('Error creating invoice:', error);
             throw error; 
@@ -45,7 +47,7 @@ module.exports = {
     },
     updateInvoice: async (invoice_id, payment_status) => {
         try {
-            const query = 'UPDATE invoices SET payment_status = @payment_status WHERE invoice_id = @invoice_id';
+            const query = 'UPDATE invoices SET payment_status = @payment_status WHERE id = @invoice_id';
             const request = new sql.Request();
             request.input('invoice_id', sql.Int, invoice_id);
             request.input('payment_status', sql.NVarChar, payment_status);
@@ -97,8 +99,8 @@ module.exports = {
             }
             
             // 4. Create invoice
-            const invoice = await module.exports.createInvoice(order_id, 'MOMO', 'Pending', total_price);
-            if (!invoice) throw new Error('Failed to create invoice');
+            const invoice_id = await module.exports.createInvoice(order_id, 'MOMO', 'Pending', total_price);
+            if (!invoice_id) throw new Error('Failed to create invoice');
             
             // 5. MoMo payment configuration (should be in environment variables)
             const partnerCode = process.env.MOMO_PARTNER_CODE || 'MOMO';
@@ -108,7 +110,7 @@ module.exports = {
             const orderInfoStr = `Thanh toán đơn hàng ${order_id}`;
             const redirectUrl = process.env.MOMO_REDIRECT_URL || 'http://localhost:3000/payment/success';
             const ipnUrl = process.env.MOMO_IPN_URL || 'http://localhost:3000/payment/ipn';
-            const extraData = '';
+            const extraData = `${invoice_id}_${user_id}`;; // Use invoice_id for tracking
             const autoCapture = true;
             const lang = 'vi';
             
@@ -171,26 +173,6 @@ module.exports = {
             
         } catch (error) {
             console.error('Error in payMoMo:', error);
-            
-            // Rollback: Delete created order and invoice if they exist
-            // if (order_id) {
-            //     try {
-            //         await orderService.deleteOrder(order_id);
-            //         console.log(`Rolled back order ${order_id}`);
-            //     } catch (rollbackError) {
-            //         console.error('Error rolling back order:', rollbackError);
-            //     }
-            // }
-            
-            // if (invoice_id) {
-            //     try {
-            //         await invoiceService.deleteInvoice(invoice_id);
-            //         console.log(`Rolled back invoice ${invoice_id}`);
-            //     } catch (rollbackError) {
-            //         console.error('Error rolling back invoice:', rollbackError);
-            //     }
-            // }
-            
             throw error;
         }
     }
