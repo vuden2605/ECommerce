@@ -13,9 +13,9 @@ module.exports = {
     },
     getOrdersByUser: async (user_id) => {
         try {
-            const query = 'SELECT * FROM orders where user_id = @userid';
+            const query = 'SELECT * FROM orders where user_id = @user_id';
             const request = new sql.Request();
-            request.input('userid', sql.Int, userid);
+            request.input('user_id', sql.Int, user_id);
             const result = await request.query(query);
             return result.recordset || []; 
         } catch (error) {
