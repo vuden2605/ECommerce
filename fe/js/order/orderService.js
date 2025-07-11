@@ -11,7 +11,7 @@ const orderService = {
         if (!res.ok) throw new Error('Lỗi khi lấy danh sách đơn hàng');
   
         const data = await res.json();
-        return data; // giả sử API trả về { orders: [...] }
+        return data; 
       } catch (err) {
         console.error('Lỗi:', err);
         return [];
