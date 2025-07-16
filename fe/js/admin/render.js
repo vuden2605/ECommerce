@@ -7,7 +7,7 @@ export function renderDashboard(data) {
       alert('Không lấy được dữ liệu dashboard!');
     }
 }
-// render dạng bảng
+
 export function renderProducts(products) {
     const tbody = document.getElementById('product-table-body');
     tbody.innerHTML = '';
@@ -57,5 +57,30 @@ export function renderUsers(users) {
       tbody.appendChild(row);
     });
   }
+export function renderOrders(orders) {
+    const tbody = document.getElementById('order-table-body');
+    if (!tbody) return;
+  
+    tbody.innerHTML = ''; // Clear cũ
+  
+    orders.forEach((order, index) => {
+      const row = document.createElement('tr');
+  
+      row.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${order.name}</td>
+        <td>${order.total_price}</td>
+        <td>${order.status}</td>
+        <td>${order.created_at}</td>
+        <td>${order.shipping_info}</td>
+        <td>
+          <button class="btn btn-sm btn-warning">Sửa</button>
+          <button class="btn btn-sm btn-danger">Xoá</button>
+        </td>
+      `;
+  
+      tbody.appendChild(row);
+    });
+}
   
   

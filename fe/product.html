@@ -10,7 +10,54 @@
 <body class="bg-light">
   <div class="container py-4">
     <h2 class="mb-4">Danh sách sản phẩm</h2>
-    <button class="btn btn-success mb-3">Thêm sản phẩm</button>
+
+    <!-- Nút hiển thị form thêm -->
+    <button class="btn btn-success mb-3" id="show-add-form-btn">➕ Thêm sản phẩm</button>
+
+    <!-- Form thêm sản phẩm -->
+    <div class="card mb-4 d-none" id="add-product-card">
+      <div class="card-body">
+        <h5 class="card-title">📝 Thêm sản phẩm mới</h5>
+        <form id="add-product-form">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="product-name" class="form-label">Tên sản phẩm</label>
+              <input type="text" class="form-control" id="product-name" required>
+            </div>
+
+            <div class="col-md-3">
+              <label for="product-price" class="form-label">Giá</label>
+              <input type="number" class="form-control" id="product-price" required>
+            </div>
+
+            <div class="col-md-3">
+              <label for="product-quantity" class="form-label">Số lượng</label>
+              <input type="number" class="form-control" id="product-quantity" required>
+            </div>
+
+            <div class="col-md-6">
+              <label for="product-description" class="form-label">Mô tả</label>
+              <input type="text" class="form-control" id="product-description" required>
+            </div>
+
+            <div class="col-md-6">
+              <label for="product-image" class="form-label">Hình ảnh (URL)</label>
+              <input type="text" class="form-control" id="product-image" required>
+            </div>
+
+            <div class="col-md-6 d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary">Lưu</button>
+            </div>
+
+            <div class="col-md-6 d-flex justify-content-start">
+              <button type="button" class="btn btn-secondary" id="hide-add-form-btn">Hủy</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Bảng sản phẩm -->
     <table class="table table-bordered">
       <thead class="table-success">
         <tr>
@@ -28,6 +75,6 @@
     </table>
   </div>
 
-  <script src="js/admin/product.js" type="module"></script>
+  <script type="module" src="js/admin/product.js"></script>
 </body>
 </html>

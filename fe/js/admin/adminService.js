@@ -51,3 +51,23 @@ export async function fetchUsers() {
     return [];
   }
 }
+export async function fetchOrders() {
+  try {
+    const token = localStorage.getItem('token');
+    const res = await fetch('http://localhost:3000/order', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error('Lỗi khi lấy đơn hàng');
+    }
+    
+    const orders  = await res.json();
+    return orders;
+  } catch (err) {
+    console.error('Lỗi khi fetch đơn hàng:', err);
+    return [];
+  }
+}

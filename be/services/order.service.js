@@ -2,7 +2,8 @@ const { sql } = require('../config/db.config');
 module.exports = {
     getAllOrders: async () => {
         try {
-            const query = 'SELECT * FROM orders';
+            const query = `SELECT u.name, o.status, o.total_price, o.created_at, o.shipping_info FROM orders o
+                           JOIN users u ON o.user_id = u.id `;
             const request = new sql.Request();
             const result = await request.query(query);
             return result.recordset || []; 
