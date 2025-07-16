@@ -43,6 +43,7 @@
   </div>
 </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
 <script>
   document.querySelector("form").addEventListener("submit", async (e) => {
     e.preventDefault(); // Ngăn reload trang
@@ -71,8 +72,14 @@
         alert("Đăng nhập thành công!");
         // Lưu token (nếu có)
         localStorage.setItem("token", result.token);
-        // Chuyển hướng
-        window.location.href = "index.html";
+        const decoded = jwt_decode(result.token);
+        if (decoded.role === "admin") {
+          window.location.href = "/admin.html";  
+        } 
+        else {
+          window.location.href = "/index.html";
+        }
+       
       } else {
         alert(result.message || "Đăng nhập thất bại!");
       }

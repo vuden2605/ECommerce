@@ -2,7 +2,10 @@ const { sql } = require('../config/db.config');
 module.exports = {
     getAllProducts: async(category_id) => {
         try {
-            const query = 'SELECT id,image, name, price, description  FROM products WHERE @category_id IS NULL OR category_id = @category_id';
+            const query = `SELECT p.name, p.price, p.description, p.image, p.stock, c.name AS category_name 
+                            FROM products p
+                            LEFT JOIN categories c ON p.category_id = c.id  
+                            WHERE @category_id IS NULL OR category_id = @category_id`;
             const request = new sql.Request();
             request.input('category_id', sql.Int, category_id);
             const result = await request.query(query);

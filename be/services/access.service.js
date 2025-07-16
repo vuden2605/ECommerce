@@ -1,5 +1,6 @@
 const { sql } = require('../config/db.config');
 const validator = require('validator');
+
 module.exports = {
     getUserByEmail: async (email) => {
         try{
@@ -48,4 +49,20 @@ module.exports = {
             throw error; 
         }
     },
+    getAllUser: async () => {
+        try {
+            const query = 'SELECT * FROM users WHERE role != @role';
+            const request = new sql.Request();
+            request.input('role', sql.VarChar, 'admin');
+            const result = await request.query(query);
+            return {
+                totalUsers: result.recordset.length,
+                data: result.recordset
+            };
+        }
+        catch (error) {
+            console.error('Error fetching all users:', error);
+            throw error; 
+        }
+    }
 }
